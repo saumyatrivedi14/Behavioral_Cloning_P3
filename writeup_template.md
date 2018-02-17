@@ -13,8 +13,8 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./examples/cnn-architecture-nvidia.png "NVIDIA CNN Architecture"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
+[image2]: ./examples/Track_1_trial_1_Loss.png "Initial Mean Squared Error Loss for Track 1"
+[image3]: ./examples/Track_1_trial_2_Loss.png "Final Mean Squared Error Loss for Track 1"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
@@ -38,9 +38,9 @@ python drive.py model.h5
 
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-### Model Architecture and Training Strategy
+## Model Architecture and Training Strategy
 
-#### 1. Architecture
+### 1. Architecture
 
 I have used a convolutional neural network similar to NVIDIA's CNN which was used by the team to train and drive autonomous cars. 
 
@@ -48,15 +48,23 @@ I have used a convolutional neural network similar to NVIDIA's CNN which was use
 
 The architecture consists of 9 layers, including a normalization layer, 5 convolutional layers (three 5x5 filter sizes and two 3x3 filter sizes kernels), and 3 fully connected layers with depths between 24 and 64 (refer Model.py). The network was build on Keras libraries with TensorFlow at backend. It consists of different size of input layers, flipping, cropping, normalization and Dropout layers to reduce overfitting and making the model more generic. The model includes RELU layers to introduce nonlinearity and the data is normalized in the model using a Keras lambda layer. Keras Lambda layer was also used to add cropping layer, benefit of using cropping layer as a part of the network is so that it can use the GPU capability to crop multiple images simultaneously thus saving considerable time in training. 
 
-#### 2. Attempts to reduce overfitting in the model
+### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+The model contains Dropout layers in order to reduce overfitting. Initially I started with only one Dropout layer after first Fully Connected Layer but it didn't reduce the overfitting, so I added one more layer of Dropout just after last Convolutional Layer and it reduced overfitting. The keep_prob was kept at 40% for both the Dropout layers. I also trained the network on sample data provided by Udacity which helped in reducing overfitting. Below are the images of mean squared error losses before and after.
+
+#### Before
+
+![alt text][image2]
+
+#### After
+
+![alt text][image3]
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, so the learning rate was not tuned manually.
 
 #### 4. Appropriate training data
 
@@ -88,26 +96,20 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
-![alt text][image1]
+
 
 #### 3. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
-![alt text][image2]
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
 
 Then I repeated this process on track two in order to get more data points.
 
 To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
 
-![alt text][image6]
-![alt text][image7]
 
 Etc ....
 
