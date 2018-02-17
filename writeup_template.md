@@ -21,7 +21,7 @@ The goals / steps of this project are the following:
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
 
-**My project includes the following files:**
+**List of files included**
 
 * Model.py - containing the script to create and train the model
 * drive.py - for driving the car in autonomous mode
