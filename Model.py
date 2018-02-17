@@ -60,7 +60,7 @@ def Image_Visualization(Images):
     plt.imshow(flipped_right_image)
     plt.title('Left Camera Image')
 
-def Generator(samples, batch_size=32, path = './Track_2_Data/IMG/'):
+def Generator(samples, batch_size=32, path = './Track_2_Data/IMG'):
     """
     Generate the images and steering angle for training
     `samples` is a list of pairs (`ImagePath`, `Steering Angles`).
@@ -74,9 +74,9 @@ def Generator(samples, batch_size=32, path = './Track_2_Data/IMG/'):
             images = []
             angles = []
             for sample in batch_samples:
-                C_imagePath = sample[0].split('/')[-1]
-                L_imagePath = sample[1].split('/')[-1]
-                R_imagePath = sample[2].split('/')[-1]
+                C_imagePath = path + sample[0].split('\\')[-1]
+                L_imagePath = path + sample[1].split('\\')[-1]
+                R_imagePath = path + sample[2].split('\\')[-1]
                 C_angle = float(sample[3])
 
                 C_Image = mpimg.imread(C_imagePath)
@@ -190,7 +190,22 @@ history_object = model.fit_generator(training_generator, samples_per_epoch=len(t
 print(history_object.history.keys())
 
 #Saving the model
-model.save('modelv2.h5')
-print('Modelv2.h5 saved\n')
+model.save('model_track_2_gpu.h5')
+print('Model.h5 saved\n')
 
 #Image_Visualization(sample_images)
+
+#To remove AWS Instance plotting error
+fig = plt.switch_backend('agg')
+
+#create and save plot
+fig = plt.figure()
+plt.plot(history_object.history['loss'])
+plt.plot(history_object.history['val_loss'])
+plt.title('Mean Squared Error Loss')
+plt.xlabel('epoch')
+plt.ylabel('Loss')
+plt.legend(['Training Set','Validation Set'], loc = 'upper right')
+plt.show()
+print('Saving Figure...')
+fig.savefig('Track_2_Loss.png')
