@@ -12,7 +12,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
+[image1]: ./examples/cnn-architecture-nvidia.png "NVIDIA CNN Architecture"
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
@@ -40,11 +40,13 @@ The model.py file contains the code for training and saving the convolution neur
 
 ### Model Architecture and Training Strategy
 
-#### 1. An appropriate model architecture has been employed
+#### 1. Architecture
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+I have used a convolutional neural network similar to NVIDIA's CNN which was used by the team to train and drive autonomous cars. 
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+![alt text][image1]
+
+The architecture consists of 9 layers, including a normalization layer, 5 convolutional layers (three 5x5 filter sizes and two 3x3 filter sizes kernels), and 3 fully connected layers with depths between 24 and 64 (refer Model.py). The network was build on Keras libraries with TensorFlow at backend. It consists of different size of input layers, flipping, cropping, normalization and Dropout layers to reduce overfitting and making the model more generic. The model includes RELU layers to introduce nonlinearity and the data is normalized in the model using a Keras lambda layer. Keras Lambda layer was also used to add cropping layer, benefit of using cropping layer as a part of the network is so that it can use the GPU capability to crop multiple images simultaneously thus saving considerable time in training. 
 
 #### 2. Attempts to reduce overfitting in the model
 
