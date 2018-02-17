@@ -15,8 +15,8 @@ The goals / steps of this project are the following:
 [image1]: ./examples/cnn-architecture-nvidia.png "NVIDIA CNN Architecture"
 [image2]: ./examples/Track_1_trial_1_Loss.png "Initial Mean Squared Error Loss for Track 1"
 [image3]: ./examples/Track_1_trial_2_Loss.png "Final Mean Squared Error Loss for Track 1"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
+[image4]: ./examples/Image_Visualization_Track_1.png "Flipped Images of Track 1"
+[image5]: ./examples/Image_Visualization_Track_2.png "Flipped Images of Track 2"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
@@ -67,4 +67,17 @@ The model used an adam optimizer, so the learning rate was not tuned manually.
 
 ### Training Strategy
 
+The model was trained and validated on different data sets to avoid overfitting, test_train_split() function was used, with 80-20 split percentage, to split the training data for validation. I ran the simulator in training_mode and collected data but just for one lap total images were only 1418, training samples 1134 and validation samples 284 which was clearly not enough to train the network, So I trained it again on sample_data provided by Udacity (approximately 6000 images). 
+
+As the car had three cameras, center, left and right, I flipped all three images, using numpy.fliplr() function, from these camera which helped the network to be more robust and generic as Track 1 is more biased towards left turns. below is the example of an instance were all three images from the camera are flipped and feed to the network. The steering angle was corrected for left and right camera training data, with too high steering correction factor, car starts to move in a zig-zag manner and too low steering correction would affect the cornering ability of the car in sharp turns, so 0.2 was selected by calibrating the correction factor.
+
+![alt text][image4]
+
+Video of the car doing a full lap in the simulator on Track 1 can be found in the directory, I collected two videos named trail 1 & 2  (Track_1_trial_1.mp4 & Track_1_trial_2.mp4)
+
+### Optional Challenge (Track 2)
+
+I ran the same model on Track 2 images and it did a pretty good job for almost 80% of the lap, only towards the end, it didn't clear a complete U-turn challenge. It still requires some fine tuning but I have attached the video of it in the directory. Flipped images of the camera on Track 2 are shown below and the video file name is Track_2.mp4.
+
+![alt text][image5]
 
